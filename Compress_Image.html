@@ -15,9 +15,6 @@
         align-items: center;
         vertical-align: top;
       }
-      #previews > div > progress {
-        width: 80%;
-      }
       .layout {
         display: flex;
         flex-direction: column;
@@ -43,13 +40,11 @@
 
     function addImageBox(container) {
       imageBox = document.createElement('div');
-      imageBox.appendChild(document.createElement('progress'));
       container.appendChild(imageBox);
       return imageBox;
     }
 
     function processFile(file) {
-      if (!file) return;
       let imageBox = addImageBox(refs.imagePreviews);
 
       new Promise(function (resolve, reject) {
@@ -64,26 +59,20 @@
         .then(function (rawImage) {
           return new Promise(function (resolve, reject) {
             let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-
             canvas.width = rawImage.width;
             canvas.height = rawImage.height;
-            ctx.drawImage(rawImage, 0, 0);
-
+            canvas.getContext('2d').drawImage(rawImage, 0, 0);
             canvas.toBlob(function (blob) {
               resolve(URL.createObjectURL(blob));
             }, 'image/webp');
           });
         })
         .then(function (imageURL) {
-          // Load image for display on the page
           return new Promise(function (resolve, reject) {
             let scaledImg = new Image();
-
             scaledImg.addEventListener('load', function () {
               resolve({ imageURL, scaledImg });
             });
-
             scaledImg.setAttribute('src', imageURL);
           });
         })
@@ -99,15 +88,8 @@
         });
     }
 
-    function processFiles(files) {
-      for (let file of files) processFile(file);
-    }
-
-    function fileSelectorChanged() {
-      processFiles(refs.fileSelector.files);
-      refs.fileSelector.value = '';
-    }
-
-    refs.fileSelector.addEventListener('change', fileSelectorChanged);
+    refs.fileSelector.addEventListener('change', function () {
+      for (let file of refs.fileSelector.files) processFile(file);
+    });
   </script>
 </html>
