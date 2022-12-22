@@ -24,10 +24,7 @@
           });
         })
         .then(function (imageURL) {
-          scaledImg = new Image();
-          scaledImg.setAttribute('src', imageURL);
-          console.log(``);
-          document.querySelector('body').appendChild(scaledImg);
+          document.querySelector('body').innerHTML += `<img src=${imageURL}>`;
         });
     }
     document.querySelector('input').addEventListener('change', function () {
