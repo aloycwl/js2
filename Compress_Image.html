@@ -6,7 +6,7 @@
   <script>
     function processFile(file) {
       new Promise(function (resolve, reject) {
-        let rawImage = new Image();
+        rawImage = new Image();
         rawImage.addEventListener('load', function () {
           resolve(rawImage);
         });
@@ -24,7 +24,9 @@
           });
         })
         .then(function (imageURL) {
-          document.querySelector('body').innerHTML += `<img src=${imageURL}>`;
+          scaledImg = new Image();
+          scaledImg.setAttribute('src', imageURL);
+          document.querySelector('body').appendChild(scaledImg);
         });
     }
     document.querySelector('input').addEventListener('change', function () {
