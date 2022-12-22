@@ -78,9 +78,6 @@
         })
         .then(function (data) {
           let imageLink = document.createElement('a');
-
-          imageLink.setAttribute('href', data.imageURL);
-          imageLink.setAttribute('download', `${file.name}.webp`);
           imageLink.appendChild(data.scaledImg);
 
           imageBox.innerHTML = '';
