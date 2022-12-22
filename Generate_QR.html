@@ -6,11 +6,7 @@
     <input id="website" />
     <canvas id="qr2"></canvas>
     <script>
-      document
-        .querySelector('input')
-        .addEventListener('keydown', generateQRCode);
-
-      function generateQRCode() {
+      document.querySelector('input').addEventListener('keydown', function () {
         new QRious({
           element: qr2,
           background: '#ffffff',
@@ -19,10 +15,10 @@
           foregroundAlpha: 1,
           level: 'L',
           padding: 0,
-          size: 1024,
+          size: 256,
           value: document.getElementById('website').value,
         });
-      }
+      });
     </script>
   </body>
 </html>
