@@ -11,7 +11,7 @@
       return imageBox;
     }
     function processFile(file) {
-      let imageBox = addImageBox(document.querySelector('#previews'));
+      let imageBox = document.querySelector('#previews');
       new Promise(function (resolve, reject) {
         let rawImage = new Image();
         rawImage.addEventListener('load', function () {
@@ -21,7 +21,7 @@
       })
         .then(function (rawImage) {
           return new Promise(function (resolve, reject) {
-            let canvas = document.createElement('canvas');
+            canvas = document.createElement('canvas');
             canvas.width = rawImage.width;
             canvas.height = rawImage.height;
             canvas.getContext('2d').drawImage(rawImage, 0, 0);
