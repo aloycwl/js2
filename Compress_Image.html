@@ -79,8 +79,6 @@
         .then(function (data) {
           let imageLink = document.createElement('a');
           imageLink.appendChild(data.scaledImg);
-
-          imageBox.innerHTML = '';
           imageBox.appendChild(imageLink);
         });
     }
