@@ -5,19 +5,15 @@
     <div id="previews"></div>
   </body>
   <script>
-    refs = {};
-    refs.imagePreviews = document.querySelector('#previews');
-    refs.fileSelector = document.querySelector('input[type=file]');
+    fs = document.querySelector('input[type=file]');
 
     function addImageBox(container) {
       imageBox = document.createElement('div');
       container.appendChild(imageBox);
       return imageBox;
     }
-
     function processFile(file) {
-      let imageBox = addImageBox(refs.imagePreviews);
-
+      let imageBox = addImageBox(document.querySelector('#previews'));
       new Promise(function (resolve, reject) {
         let rawImage = new Image();
         rawImage.addEventListener('load', function () {
@@ -42,9 +38,8 @@
           imageBox.appendChild(scaledImg);
         });
     }
-
-    refs.fileSelector.addEventListener('change', function () {
-      for (let file of refs.fileSelector.files) processFile(file);
+    fs.addEventListener('change', function () {
+      for (let file of fs.files) processFile(file);
     });
   </script>
 </html>
