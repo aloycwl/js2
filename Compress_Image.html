@@ -1,25 +1,113 @@
 <html>
-  <head></head>
+  <head>
+    <style>
+      img {
+        max-height: 100%;
+        max-width: 100%;
+      }
+      #previews > div {
+        box-sizing: border-box;
+        height: 240px;
+        width: 240px;
+        padding: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: top;
+      }
+      #previews > div > progress {
+        width: 80%;
+      }
+      .layout {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        align-content: stretch;
+        height: calc(100vh - 40px);
+      }
+    </style>
+  </head>
   <body></body>
-  <input type="file" id="inp" />
-  <canvas id="canvas"></canvas>
+  <div class="layout">
+    <div>
+      <input type="file" multiple accept="image/*" />
+    </div>
+    <div id="previews"></div>
+  </div>
 
   <script>
-    document.getElementById('inp').onchange = function (e) {
-      var img = new Image();
-      img.onload = draw;
-      img.onerror = failed;
-      img.src = URL.createObjectURL(this.files[0]);
-    };
-    function draw() {
-      var canvas = document.getElementById('canvas');
-      canvas.width = this.width;
-      canvas.height = this.height;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(this, 0, 0);
+    refs = {};
+    refs.imagePreviews = document.querySelector('#previews');
+    refs.fileSelector = document.querySelector('input[type=file]');
+
+    function addImageBox(container) {
+      imageBox = document.createElement('div');
+      imageBox.appendChild(document.createElement('progress'));
+      container.appendChild(imageBox);
+      return imageBox;
     }
-    function failed() {
-      console.error("The provided file couldn't be loaded as an Image media");
+
+    function processFile(file) {
+      if (!file) return;
+      let imageBox = addImageBox(refs.imagePreviews);
+
+      new Promise(function (resolve, reject) {
+        let rawImage = new Image();
+
+        rawImage.addEventListener('load', function () {
+          resolve(rawImage);
+        });
+
+        rawImage.src = URL.createObjectURL(file);
+      })
+        .then(function (rawImage) {
+          return new Promise(function (resolve, reject) {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+
+            canvas.width = rawImage.width;
+            canvas.height = rawImage.height;
+            ctx.drawImage(rawImage, 0, 0);
+
+            canvas.toBlob(function (blob) {
+              resolve(URL.createObjectURL(blob));
+            }, 'image/webp');
+          });
+        })
+        .then(function (imageURL) {
+          // Load image for display on the page
+          return new Promise(function (resolve, reject) {
+            let scaledImg = new Image();
+
+            scaledImg.addEventListener('load', function () {
+              resolve({ imageURL, scaledImg });
+            });
+
+            scaledImg.setAttribute('src', imageURL);
+          });
+        })
+        .then(function (data) {
+          let imageLink = document.createElement('a');
+
+          imageLink.setAttribute('href', data.imageURL);
+          imageLink.setAttribute('download', `${file.name}.webp`);
+          imageLink.appendChild(data.scaledImg);
+
+          imageBox.innerHTML = '';
+          imageBox.appendChild(imageLink);
+        });
     }
+
+    function processFiles(files) {
+      for (let file of files) processFile(file);
+    }
+
+    function fileSelectorChanged() {
+      processFiles(refs.fileSelector.files);
+      refs.fileSelector.value = '';
+    }
+
+    refs.fileSelector.addEventListener('change', fileSelectorChanged);
   </script>
 </html>
