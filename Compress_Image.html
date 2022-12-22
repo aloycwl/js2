@@ -20,8 +20,8 @@
           c.width = r.width > 300 ? 300 : r.width;
           c.height = (r.height * c.width) / r.width;
           c.getContext('2d').drawImage(r, 0, 0, c.width, c.height);
-          aa = c.toDataURL('image/webp', 0.1);
-          d.innerHTML += `<img src=${aa}>`;
+          c = c.toDataURL('image/webp', 0.1);
+          d.innerHTML += `<img src=${c}>`;
         });
     });
   </script>
