@@ -42,19 +42,10 @@
         })
         .then(function (imageURL) {
           return new Promise(function (resolve, reject) {
-            let scaledImg = new Image();
-            scaledImg.addEventListener('load', function () {
-              resolve({ imageURL, scaledImg });
-            });
+            scaledImg = new Image();
             scaledImg.setAttribute('src', imageURL);
             imageBox.appendChild(scaledImg);
-            console.log(scaledImg);
           });
-        })
-        .then(function (data) {
-          let imageLink = document.createElement('a');
-          imageLink.appendChild(data.scaledImg);
-          imageBox.appendChild(imageLink);
         });
     }
 
