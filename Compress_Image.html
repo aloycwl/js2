@@ -5,9 +5,7 @@
     <div></div>
   </body>
   <script>
-    d = document.querySelector('div');
     document.querySelector('input').addEventListener('change', function () {
-      d.innerHTML = '';
       for (let f of this.files)
         new Promise(function (resolve) {
           let r = new Image();
@@ -21,7 +19,7 @@
           c.height = (r.height * c.width) / r.width;
           c.getContext('2d').drawImage(r, 0, 0, c.width, c.height);
           c = c.toDataURL('image/webp', 0.1);
-          d.innerHTML += `<img src=${c}>`;
+          document.querySelector('div').innerHTML += `<img src=${c}>`;
         });
     });
   </script>
