@@ -2,8 +2,10 @@
   <head></head>
   <body>
     <input type="file" multiple accept="image/*" />
+    <div></div>
   </body>
   <script>
+    d = document.querySelector('div');
     function processFile(file) {
       new Promise(function (resolve) {
         let raw = new Image();
@@ -13,16 +15,18 @@
         raw.src = URL.createObjectURL(file);
       }).then(function (raw) {
         canvas = document.createElement('canvas');
-        canvas.width = raw.width;
-        canvas.height = raw.height;
-        canvas.getContext('2d').drawImage(raw, 0, 0);
+        tooBig = raw.width > 300;
+        nWidth = tooBig ? 300 : raw.width;
+        nHeight = tooBig ? (raw.height * 300) / raw.width : raw.height;
+        canvas.width = nWidth;
+        canvas.height = nHeight;
+        canvas.getContext('2d').drawImage(raw, 0, 0, nWidth, nHeight);
         aa = canvas.toDataURL('image/webp', 0.1);
-        scaledImg = new Image();
-        scaledImg.setAttribute('src', aa);
-        document.querySelector('body').appendChild(scaledImg);
+        d.innerHTML += `<img src=${aa}>`;
       });
     }
     document.querySelector('input').addEventListener('change', function () {
+      d.innerHTML = '';
       for (let file of this.files) processFile(file);
     });
   </script>
