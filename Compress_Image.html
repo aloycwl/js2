@@ -2,11 +2,9 @@
   <head> </head>
   <body>
     <input type="file" multiple accept="image/*" />
-    <div></div>
   </body>
   <script>
     function processFile(file) {
-      let imageBox = document.querySelector('div');
       new Promise(function (resolve, reject) {
         let rawImage = new Image();
         rawImage.addEventListener('load', function () {
@@ -28,7 +26,8 @@
         .then(function (imageURL) {
           scaledImg = new Image();
           scaledImg.setAttribute('src', imageURL);
-          imageBox.appendChild(scaledImg);
+          console.log(``);
+          document.querySelector('body').appendChild(scaledImg);
         });
     }
     document.querySelector('input').addEventListener('change', function () {
