@@ -41,11 +41,9 @@
           });
         })
         .then(function (imageURL) {
-          return new Promise(function (resolve, reject) {
-            scaledImg = new Image();
-            scaledImg.setAttribute('src', imageURL);
-            imageBox.appendChild(scaledImg);
-          });
+          scaledImg = new Image();
+          scaledImg.setAttribute('src', imageURL);
+          imageBox.appendChild(scaledImg);
         });
     }
 
