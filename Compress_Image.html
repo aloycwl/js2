@@ -36,9 +36,8 @@
           imageBox.appendChild(scaledImg);
         });
     }
-    fs = document.querySelector('input[type=file]');
-    fs.addEventListener('change', function () {
-      for (let file of fs.files) processFile(file);
+    document.querySelector('input').addEventListener('change', function () {
+      for (let file of this.files) processFile(file);
     });
   </script>
 </html>
