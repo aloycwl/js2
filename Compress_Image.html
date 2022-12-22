@@ -15,7 +15,7 @@
             resolve(raw);
           });
           raw.src = URL.createObjectURL(file);
-        }).then(function (r) {r
+        }).then(function (r) {
           c = document.createElement('canvas');
           c.width = r.width > 300 ? 300 : r.width;
           c.height = (r.height * c.width) / r.width;
