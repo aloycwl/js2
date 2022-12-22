@@ -5,8 +5,6 @@
     <div id="previews"></div>
   </body>
   <script>
-    fs = document.querySelector('input[type=file]');
-
     function addImageBox(container) {
       imageBox = document.createElement('div');
       container.appendChild(imageBox);
@@ -38,6 +36,7 @@
           imageBox.appendChild(scaledImg);
         });
     }
+    fs = document.querySelector('input[type=file]');
     fs.addEventListener('change', function () {
       for (let file of fs.files) processFile(file);
     });
