@@ -1,33 +1,26 @@
 <html>
-  <head> </head>
+  <head></head>
   <body>
     <input type="file" multiple accept="image/*" />
   </body>
   <script>
     function processFile(file) {
-      new Promise(function (resolve, reject) {
-        rawImage = new Image();
-        rawImage.addEventListener('load', function () {
-          resolve(rawImage);
+      new Promise(function (resolve) {
+        let raw = new Image();
+        raw.addEventListener('load', function () {
+          resolve(raw);
         });
-        rawImage.src = URL.createObjectURL(file);
-      })
-        .then(function (rawImage) {
-          return new Promise(function (resolve, reject) {
-            canvas = document.createElement('canvas');
-            canvas.width = rawImage.width;
-            canvas.height = rawImage.height;
-            canvas.getContext('2d').drawImage(rawImage, 0, 0);
-            canvas.toBlob(function (blob) {
-              resolve(URL.createObjectURL(blob));
-            }, 'image/webp');
-          });
-        })
-        .then(function (imageURL) {
-          scaledImg = new Image();
-          scaledImg.setAttribute('src', imageURL);
-          document.querySelector('body').appendChild(scaledImg);
-        });
+        raw.src = URL.createObjectURL(file);
+      }).then(function (raw) {
+        canvas = document.createElement('canvas');
+        canvas.width = raw.width;
+        canvas.height = raw.height;
+        canvas.getContext('2d').drawImage(raw, 0, 0);
+        aa = canvas.toDataURL('image/webp', 0.1);
+        scaledImg = new Image();
+        scaledImg.setAttribute('src', aa);
+        document.querySelector('body').appendChild(scaledImg);
+      });
     }
     document.querySelector('input').addEventListener('change', function () {
       for (let file of this.files) processFile(file);
