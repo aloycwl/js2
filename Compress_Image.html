@@ -6,7 +6,6 @@
   </body>
   <script>
     d = document.querySelector('div');
-    fWidth = 300;
     function processFile(file) {
       new Promise(function (resolve) {
         let raw = new Image();
@@ -14,15 +13,12 @@
           resolve(raw);
         });
         raw.src = URL.createObjectURL(file);
-      }).then(function (raw) {
+      }).then(function (r) {
         c = document.createElement('canvas');
-        tooBig = raw.width > fWidth;
-        nWidth = tooBig ? fWidth : raw.width;
-        nHeight = (raw.height * fWidth) / raw.width;
-        c.width = nWidth;
-        c.height = nHeight;
-        c.getContext('2d').drawImage(raw, 0, 0, c.width, c.height);
-        aa = c.toDataURL('image/webp');
+        c.width = r.width > 300 ? 300 : r.width;
+        c.height = (r.height * c.width) / r.width;
+        c.getContext('2d').drawImage(r, 0, 0, c.width, c.height);
+        aa = c.toDataURL('image/webp', 0.1);
         d.innerHTML += `<img src=${aa}>`;
       });
     }
