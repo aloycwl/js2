@@ -24,11 +24,9 @@
 
       new Promise(function (resolve, reject) {
         let rawImage = new Image();
-
         rawImage.addEventListener('load', function () {
           resolve(rawImage);
         });
-
         rawImage.src = URL.createObjectURL(file);
       })
         .then(function (rawImage) {
@@ -50,6 +48,8 @@
             });
             scaledImg.setAttribute('src', imageURL);
           });
+          imageBox.appendChild(scaledImg);
+          console.log(scaledImg);
         })
         .then(function (data) {
           let imageLink = document.createElement('a');
