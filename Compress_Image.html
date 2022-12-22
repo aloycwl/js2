@@ -8,13 +8,13 @@
     d = document.querySelector('div');
     document.querySelector('input').addEventListener('change', function () {
       d.innerHTML = '';
-      for (let file of this.files)
+      for (let f of this.files)
         new Promise(function (resolve) {
-          let raw = new Image();
-          raw.addEventListener('load', function () {
-            resolve(raw);
+          let r = new Image();
+          r.addEventListener('load', function () {
+            resolve(r);
           });
-          raw.src = URL.createObjectURL(file);
+          r.src = URL.createObjectURL(f);
         }).then(function (r) {
           c = document.createElement('canvas');
           c.width = r.width > 300 ? 300 : r.width;
