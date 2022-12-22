@@ -22,7 +22,7 @@
         c.width = nWidth;
         c.height = nHeight;
         c.getContext('2d').drawImage(raw, 0, 0, c.width, c.height);
-        aa = c.toDataURL('image/webp', 0.1);
+        aa = c.toDataURL('image/webp');
         d.innerHTML += `<img src=${aa}>`;
       });
     }
