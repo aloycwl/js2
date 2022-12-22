@@ -2,11 +2,11 @@
   <head> </head>
   <body>
     <input type="file" multiple accept="image/*" />
-    <div id="previews"></div>
+    <div></div>
   </body>
   <script>
     function processFile(file) {
-      let imageBox = document.querySelector('#previews');
+      let imageBox = document.querySelector('div');
       new Promise(function (resolve, reject) {
         let rawImage = new Image();
         rawImage.addEventListener('load', function () {
